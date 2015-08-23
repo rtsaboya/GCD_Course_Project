@@ -49,10 +49,11 @@ The resulting dataset has 180 observations of 81 variables:
 
 The structure of the data is as follows:
 
-Subject | Activity   | Averages of 79 measurements ...
-------  | ---------  | --------
-1 | walking          | average of normalized measures 
-1 | walking upstairs | average of normalized measures
+Subject | Activity         | Averages of 79 measurements ...
+------  | ---------        | --------
+1       | walking          | average of normalized measures 
+1       | walking upstairs | average of normalized measures
+...     | ...              | ...
 
 All measurements are normalized to fit between -1 and +1. The variables included are:
   [1] "subject"                                         
