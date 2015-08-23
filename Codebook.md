@@ -1,17 +1,60 @@
 ## Project Description
 Course Project in "Getting and Cleaning Data" Course in Cousera.
 
-## Tidy Dataset
-The original dataset was composed of several files (see below) which were merged and modified in order to be more readable. The final dataset obeys three principles outlined by Wickham (sd):
+###Collection of the raw data (See "Source" section below)
+"The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
 
-1. Each variable forms a column.
-2. Each observation forms a row.
-3. Each type of observational unit forms a table.
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
 
-The script used to generate the tidy data can be found in run_analysis.R in this repo. Instructions on how to run it are in the Codebook also provided here in this repo.
+For each record it is provided:
 
-The tidy dataset comprises averages for 79 variables that had mean and standard deviations values, as the exercise requested, grouped by subject and activity. The final list of variables included in the dataset are:
+- Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.
+- Triaxial Angular velocity from the gyroscope. 
+- A 561-feature vector with time and frequency domain variables. 
+- Its activity label. 
+- An identifier of the subject who carried out the experiment." (Extracted from the README.md file in the original dataset)
 
+###Notes on the original (raw) data 
+An important characteristic of the raw data is that it is split in multiple files that therefore have to be combined to yield the desired results. Measurements were located in two files (corresponding to test and train measurements), and variables names, subjects and activities were each in its own separate file.
+
+##Creating the tidy datafile
+
+###Guide to create the tidy data file
+
+1. Save the "run_analysis.R" script in the desired folder;
+2. Open the script and set the working directory to match the folder in which the script was saved;
+3. Download the zipped data file and unzip it into your working directory - inside folder "UCI HAR Dataset";
+4. Run the script;
+5. The script will save the tidy data as a TXT file called "tidyData.txt".
+
+###Cleaning of the data
+The script adds column names for both the test and train datasets  and adds two columns:
+
+1. Subjects, that indicates to which of the 30 subjects each row corresponds;
+2. Activities, that specifies the code of the activity performed in each row.
+
+The script then merges the "test" and "train" datasets in one large dataset. It then substitutes the activity descriptions for the codes provided for each row ("1" is replaced by "walking", 2 by "walking upstairs" and so on).
+
+A subset of columns is selected to include only means and standard deviations as per the exercise instructions.
+
+In order to facilitate reading, column names are expanded to better explain abbreviations ("Acc" is replaced by "Acceleration" and so on).
+
+Finally, the data is summarized by subject and activity, calculating average values for all other columns.
+
+Further details can be found in the README.MD file that accompanies this Codebook.
+
+##Description of the variables in the tiny_data.txt file
+The resulting dataset has 180 observations of 81 variables:
+> [1] 180  81
+
+The structure of the data is as follows:
+
+Subject | Activity   | Averages of 79 measurements ...
+------  | ---------  | --------
+1 | walking          | average of normalized measures 
+1 | walking upstairs | average of normalized measures
+
+All measurements are normalized to fit between -1 and +1. The variables included are:
   [1] "subject"                                         
   [2] "activity"                                        
   [3] "tBodyAcceleration.mean...X"                      
@@ -94,21 +137,9 @@ The tidy dataset comprises averages for 79 variables that had mean and standard 
  [80] "fBodyBodyAngularVelocityMagnitude.std.."         
  [81] "fBodyBodyAngularVelocityJerkMagnitude.std.."
 
-## Original Dataset 
-The original dataset includes the following files:
+##Sources
+Source of the Data: 
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
-- 'README.txt'
-- 'features_info.txt': Shows information about the variables used on the feature vector.
-- 'features.txt': List of all features.
-- 'activity_labels.txt': Links the class labels with their activity name.
-- 'train/X_train.txt': Training set.
-- 'train/y_train.txt': Training labels.
-- 'test/X_test.txt': Test set.
-- 'test/y_test.txt': Test labels.
-
-The following files are available for the train and test data. Their descriptions are equivalent. 
-
-- 'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
-- 'train/Inertial Signals/total_acc_x_train.txt': The acceleration signal from the smartphone accelerometer X axis in standard gravity units 'g'. Every row shows a 128 element vector. The same description applies for the 'total_acc_x_train.txt' and 'total_acc_z_train.txt' files for the Y and Z axis. 
-- 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by subtracting the gravity from the total acceleration. 
-- 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
+More details about the data and the project: 
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
